@@ -92,7 +92,7 @@ function graphFromJson(json) {
     edges = create2DArray(n, n);
     povezave = json.povezave;
     for (i = 0; i < povezave.length; i++) {
-        item = povezave[i];
+        var item = povezave[i];
         i1 = idMap[item[0]];
         i2 = idMap[item[1]];
 
@@ -165,7 +165,7 @@ function Run() {
 
     ///Run algorithm for a given ammount of itterations
     var i = 0;
-    while (i < 40) {
+    while (i < 20) {
         UpdateWeights(graph,attraction,repulsion);
         ///Normalizes all positions so that they will fit into canvas window
         normalize(vertices, imageSize, width - imageSize, imageSize, height - imageSize);
@@ -179,24 +179,30 @@ function Run() {
 
 ///Initialization function
 function init() {
-    attractionSlider = document.getElementById("attraction");
-    repulsionSlider = document.getElementById("repulsion");
-    canvas = document.getElementById("canvas");
-    ctx = canvas.getContext("2d");
-
-    width = canvas.width;
-    height = canvas.height;
-
-    attractionSlider.onchange = valueChanged;
-    repulsionSlider.onchange = valueChanged;
-    canvas.onmousedown = canvasMouseDown;
-    canvas.onmouseup = canvasMouseUp;
-    canvas.onmousemove = canvasMouseMove;
 
 
-    graph = graphFromJson(data);
-    valueChanged();
-    Run(graph);
+    ///Wait for all pictures to be loaded
+    preload(function () {
+
+        attractionSlider = document.getElementById("attraction");
+        repulsionSlider = document.getElementById("repulsion");
+        canvas = document.getElementById("canvas");
+        ctx = canvas.getContext("2d");
+
+        width = canvas.width;
+        height = canvas.height;
+
+        attractionSlider.onchange = valueChanged;
+        repulsionSlider.onchange = valueChanged;
+        canvas.onmousedown = canvasMouseDown;
+        canvas.onmouseup = canvasMouseUp;
+        canvas.onmousemove = canvasMouseMove;
+
+
+        graph = graphFromJson(data);
+        valueChanged();
+        Run(graph);
+    });
 }
 
 
@@ -272,6 +278,22 @@ function valueChanged() {
 
 ////////////////////////////////////////////////////////////////////////////////////
 /////////Helpers
+
+
+function preload(continuation) {
+    var count = 0;
+    
+    for (i = 1; i < 21; i++) {
+        var img = new Image();
+        img.onload=function () {
+            count += 1;
+            if (count == 20) {
+                continuation();
+            }
+        };
+        img.src = "pics/" + i + ".jpg";
+    }
+}
 
 function clear() {
     selected = null;
