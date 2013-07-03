@@ -1,0 +1,26 @@
+﻿<html>
+<head>
+    <script src="Script1.js" type="application/javascript"> </script>
+    <script src="data.json" type="text/javascript"></script>
+    <script src="algorithm.js" type="text/javascript"></script>
+</head>
+<body onload="init();">
+    <div>
+        <button id="button" onclick="predefined()">Load starting data</button>        
+        <button id="button3" onclick="loadJsonData()">Load custom Json data</button>
+        <button id="button1" onclick="newGraph()">Random circles</button>        
+        <button id="button2" onclick="runAgain()">Run again</button>
+        Attraction Strength
+        <input type="range" id="attraction" min="1" max="99" value="6">
+        Repuslion Strength
+        <input type="range" id="repulsion" min="10" max="2000" value="1000">
+         Images are drawable. Last clicked image is centered, its position will stay fixed.
+    </div>
+    <div>
+        <canvas id="canvas" width="1000" height="600"></canvas>
+    </div>
+
+</body>
+
+
+</html>
