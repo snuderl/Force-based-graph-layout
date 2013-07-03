@@ -118,8 +118,8 @@ function runAgain() {
     vertices = graph.vertices;
     for (i = 0; i < vertices.length; i++) {
         if (i == centered) continue;
-        vertices.x = randInteger(0, 500);
-        vertices.y = randInteger(0, 500);
+        vertices[i].x = randInteger(0, width);
+        vertices[i].y = randInteger(0, height);
     }
 
     Run(graph);
@@ -171,6 +171,7 @@ function Run() {
         normalize(vertices, imageSize, width - imageSize, imageSize, height - imageSize);
         i++;
     }
+
     draw(graph);
 }
 
@@ -201,7 +202,6 @@ function init() {
 
         graph = graphFromJson(data);
         valueChanged();
-        Run(graph);
     });
 }
 
@@ -264,7 +264,7 @@ function canvasMouseMove(e) {
         selected.y = y;
 
 
-        runAgain();
+        Run();
     }
 }
 
