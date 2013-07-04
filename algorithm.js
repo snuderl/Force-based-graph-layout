@@ -81,6 +81,8 @@ function UpdateWeights(graph, attraction, repulsion) {
 
     }
 
+
+    var totalVelocity = 0;
     for (a = 0; a < edges.length; a++) {
         if (a == centered) continue;
 
@@ -88,9 +90,10 @@ function UpdateWeights(graph, attraction, repulsion) {
 
         v1.velocityX = (v1.velocityX + totalDx[a]) * 0.9;
         v1.velocityY = (v1.velocityY + totalDy[a]) * 0.9;
+        totalVelocity += Math.abs(v1.velocityX + v1.velocityY);
         v1.x += v1.velocityX;
         v1.y += v1.velocityY;
 
     }
-
+    return totalVelocity;
 }

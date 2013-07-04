@@ -51,7 +51,13 @@ function draw(graph) {
         ctx.beginPath();
 
         if (p.image) {
-            ctx.drawImage(p.image, 0, 0, 250, 250, p.x - imageSize / 2, p.y - imageSize / 2, imageSize, imageSize);
+            if (i==centered) {
+                ctx.drawImage(p.image, 0, 0, 250, 250, p.x - (imageSize + 10) / 2, p.y - (imageSize + 10) / 2, imageSize + 10, imageSize + 10);
+            }
+            else {
+                ctx.drawImage(p.image, 0, 0, 250, 250, p.x - imageSize / 2, p.y - imageSize / 2, imageSize, imageSize);
+            }
+            
         } else {
             ctx.arc(p.x, p.y, imageSize / 2, 0, Math.PI * 2, true);
         }
@@ -76,7 +82,7 @@ function graphFromJson(json) {
         num = i + 1;
         var image = "pics/" + num + ".jpg";
 
-        p = new Point(randInteger(0, 500), randInteger(0, 500), image);
+        p = new Point(randInteger(0, width), randInteger(0, height), image);
         vertices[i] = p;
 
         idMap[json.osebe[i].id] = i;
@@ -129,7 +135,7 @@ function runAgain() {
 function createGraph(n) {
     vertices = new Array(n);
     for (i = 0; i < n; i++) {
-        p = new Point(randInteger(0, 500), randInteger(0, 500), "");
+        p = new Point(randInteger(0, width), randInteger(0, height), "");
         vertices[i] = p;
     }
 
@@ -164,13 +170,15 @@ function Run() {
 
 
     ///Run algorithm for a given ammount of itterations
+    var cost;
     var i = 0;
-    while (i < 20) {
-        UpdateWeights(graph,attraction,repulsion);
+    while (i < 250) {
+        cost=UpdateWeights(graph,attraction,repulsion);
         ///Normalizes all positions so that they will fit into canvas window
         normalize(vertices, imageSize, width - imageSize, imageSize, height - imageSize);
         i++;
     }
+    console.log(cost);
 
     draw(graph);
 }
@@ -224,6 +232,7 @@ function predefined() {
     clear();
     graph = graphFromJson(data);
     Run(graph);
+
 }
 
 
